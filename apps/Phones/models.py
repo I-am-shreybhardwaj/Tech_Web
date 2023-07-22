@@ -1,7 +1,6 @@
 from django.db import models
 
-from Tech_Web.apps.Phones.constant import BRAND_CHOICE
-
+from apps.Phones.constant import BRAND_CHOICE
 
 # Create your models here.
 
