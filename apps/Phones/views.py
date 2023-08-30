@@ -48,5 +48,11 @@ class SavePhoneInfo(ViewSet):
                 return Response({"message":"Brand Not Found","success":False},status=status.HTTP_206_PARTIAL_CONTENT)
         except Exception as e:
             return Response({"message":"Something Went Wrong. We are Looking into it.","exception":e,"success":False},status=status.HTTP_206_PARTIAL_CONTENT)
+        
+    def data(self, request):
+        phone_id = request.GET.get("id")
+        mobile_obj = mobile_phone = MobilePhone.objects.filter(id=phone_id).first()
+        serializer = MobileInfo(mobile_phone).data
+        return Response({"data":serializer,"message":"Mobile Phone Details Fetch Successfully","success":True},status=status.HTTP_200_OK)
             
         
