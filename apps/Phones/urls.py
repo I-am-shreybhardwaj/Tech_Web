@@ -1,8 +1,18 @@
 from django.urls import path, include
 
-from apps.Phones.views import SavePhoneInfo
+from apps.Phones.views import SavePhoneInfo,MobileBrandViewset,MobilePhoneViewset
 
 urlpatterns = [
-    path("save/", SavePhoneInfo.as_view({'post':"save"})),
-    path("data/", SavePhoneInfo.as_view({'get':"data"}))
+    # This API Give all the brand list
+    path("all-brands-list/", MobileBrandViewset.as_view({'get':"brandList"})),
+
+    # These API are related to Phone
+    path("list-by-brands/", MobilePhoneViewset.as_view({'get':"phoneListWithBrand"})),
+    path("list-by-series/", MobilePhoneViewset.as_view({'get':"phoneListWithSeries"})),
+    path("specs/", MobilePhoneViewset.as_view({'get':"phoneSpecs"})),
+    path("recent-added/", MobilePhoneViewset.as_view({'get':"recentPhoneAdded"})),
+
+    # Mobile Data Save Using This API
+    path("mobile-data-save/", SavePhoneInfo.as_view({'post':"save"}))
+    
 ]

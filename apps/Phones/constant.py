@@ -1,0 +1,1 @@
+EXCEPTION_MESSAGE = "Something Went Wrong. We are Looking into it."
