@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-e(%+bebd052wdk6^nhl#a=sls__e6*#&7lc#o4ua#fdbmw_t$7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["192.168.0.143"]
 
 
 # Application definition
@@ -131,6 +131,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",
+    "http://localhost:3000",
+    "http://192.168.0.143:3000"
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
+
+
+# https://designmodo.com/ai-tools-designers/

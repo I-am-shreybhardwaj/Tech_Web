@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from apps.Phones.constant import EXCEPTION_MESSAGE
 
-from apps.Phones.models import MobileBrands, MobilePhone
+from apps.Phones.models import MobileBrands, MobilePhone, MobileSeries
 
 from bs4 import BeautifulSoup
-from apps.Phones.serializer import BrandInfoSerializer, MobileInfo
+from apps.Phones.serializer import BrandInfoSerializer, MobileInfo, SeriesInfoSerializer
 
 from apps.Phones.utils import html_tables_to_json
 
@@ -18,14 +18,23 @@ from apps.Phones.utils import html_tables_to_json
 class MobileBrandViewset(ViewSet):
     def brandList(self,request):
         try:
-            brand = MobileBrands.objects.all()
+            brand = MobileBrands.objects.all().order_by("brand_name")
             serializer = BrandInfoSerializer(brand, many=True).data
             return Response({"data":serializer,"message":"Mobile Phone Details Save Successfully","success":True},status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"message":EXCEPTION_MESSAGE,"exception":e,"success":False},status=status.HTTP_206_PARTIAL_CONTENT)
+            return Response({"message":EXCEPTION_MESSAGE,"exception":str(e),"success":False},status=status.HTTP_206_PARTIAL_CONTENT)
+        
+    def seriesList(self,request):
+        try:
+            brand_params = request.GET.get("brand_id",'')
+            brand = MobileSeries.objects.filter(brand=brand_params)
+            serializer = SeriesInfoSerializer(brand, many=True).data
+            return Response({"data":serializer,"message":"Mobile Phone Series Fetch Successfully","success":True},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"message":EXCEPTION_MESSAGE,"exception":str(e),"success":False},status=status.HTTP_206_PARTIAL_CONTENT)
         
 class MobilePhoneViewset(ViewSet):
-    def phoneListWithBrand(self,request):
+    def phoneListWithSeries(self,request):
         try:
             series_params = request.GET.get("series_id",'')
             if series_params:
@@ -36,7 +45,7 @@ class MobilePhoneViewset(ViewSet):
         except Exception as e:
             return Response({"message": EXCEPTION_MESSAGE,"exception":e,"success":False},status=status.HTTP_206_PARTIAL_CONTENT)
         
-    def phoneListWithSeries(self,request):
+    def phoneListWithBrand(self,request):
         try:
             brand_params = request.GET.get("brand_id",'')
             if brand_params:
@@ -45,7 +54,7 @@ class MobilePhoneViewset(ViewSet):
                 return Response({"data":serializer,"message":"Mobile Phone With Brand Fetch Successfully","success":True},status=status.HTTP_200_OK)
             return Response({"message":"Mobile Brand Not Found","success":False},status=status.HTTP_206_PARTIAL_CONTENT)
         except Exception as e:
-            return Response({"message": EXCEPTION_MESSAGE,"exception":e,"success":False},status=status.HTTP_206_PARTIAL_CONTENT)
+            return Response({"message": EXCEPTION_MESSAGE,"exception":str(e),"success":False},status=status.HTTP_206_PARTIAL_CONTENT)
                 
     def phoneSpecs(self, request):
         try:

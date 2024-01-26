@@ -11,6 +11,7 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 class MobileBrands(TimeStampedModel):
+    brand_logo = models.FileField(upload_to="uploads",null=True,blank=True)
     brand_name = models.CharField("Brand",max_length=30,null=True,blank=True)
     class Meta: 
         verbose_name = "Mobile Brand"

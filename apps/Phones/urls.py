@@ -5,6 +5,7 @@ from apps.Phones.views import SavePhoneInfo,MobileBrandViewset,MobilePhoneViewse
 urlpatterns = [
     # This API Give all the brand list
     path("all-brands-list/", MobileBrandViewset.as_view({'get':"brandList"})),
+    path("all-series-list/", MobileBrandViewset.as_view({'get':"seriesList"})),
 
     # These API are related to Phone
     path("list-by-brands/", MobilePhoneViewset.as_view({'get':"phoneListWithBrand"})),
